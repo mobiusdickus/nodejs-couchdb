@@ -1,6 +1,6 @@
-# Nodejs & CouchDB with Docker & Docker Compose
+# Node.js CouchDB
 
-This is an example template used for testing NodeJS and CouchDB with Docker and Docker Compose.
+Dockerized template for a Node.js API and CouchDB database, served through Node.js.
 
 ## Set up
 
@@ -11,4 +11,8 @@ This is an example template used for testing NodeJS and CouchDB with Docker and 
    2. `COUCHDB_USER`
    3. `COUCHDB_PASSWORD`
 3. Export variables from the `.env` to local shell with ``` export $(cat .env | xargs) ```.
-4. 
+   1. Alternatively, you can install `direnv` to auto load the environment variables.
+
+## Development
+
+## Comments
