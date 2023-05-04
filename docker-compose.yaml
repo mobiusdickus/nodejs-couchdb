@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   webserver:
-    build: ./app/
+    build: ./containers/nodejs/
     container_name: webserver
     depends_on:
       - couchdb
@@ -11,7 +11,7 @@ services:
       - COUCHDB_USER=${COUCHDB_USER}
       - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
     volumes:
-      - ./app:/srv
+      - ./containers/nodejs:/srv
     ports:
       - "3000:3000"
     networks:
