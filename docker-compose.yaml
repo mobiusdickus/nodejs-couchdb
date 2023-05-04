@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  webserver:
+    build: ./app/
+    container_name: webserver
+    depends_on:
+      - couchdb
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - ./app:/srv
+    ports:
+      - "3000:3000"
+    networks:
+      - my_network
+
+  couchdb:
+    image: couchdb:3.3.1
+    container_name: couchdb
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    ports:
+      - "5984:5984"
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+    networks:
+      - my_network
+    
+volumes:
+  couchdb_data:
+
+networks:
+  my_network:
+    driver: bridge
