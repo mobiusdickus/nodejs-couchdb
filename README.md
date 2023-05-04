@@ -1,4 +1,4 @@
-# Node.js CouchDB
+# Node.js and CouchDB with Docker
 
 Dockerized template for a Node.js API and CouchDB database, served through Node.js.
 
