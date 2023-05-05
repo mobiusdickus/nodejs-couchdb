@@ -1,40 +1,26 @@
 const express = require('express');
 const app = express();
 
-const nano = require('nano')('http://admin:password@couchdb:5984');
+const DB_USER = process.env.COUCHDB_USER;
+const DB_PASSWORD = process.env.COUCHDB_PASSWORD;
+const DB_NAME = 'testdb';
 
-const createDatabase = async (dbName) => {
+const nano = require('nano')(`http://${DB_USER}:${DB_PASSWORD}@couchdb:5984`);
+const db = nano.use(DB_NAME);
+
+app.get('/', async (req, res) => {
   try {
-    const response = await nano.db.create(dbName);
-    console.log(`Database '${dbName}' created successfully.`);
-    console.log(response);
-  } catch (error) {
-    if (error.statusCode === 412) {
-      console.log(`Database '${dbName}' already exists.`);
-    } else {
-      console.error(`Error creating database '${dbName}':`, error.message);
-    }
+    const user = await db.get('some_uuid');
+
+    res.setHeader('Content-Type', 'text/html');
+    res.write("<h1>Welcome to Node.js and CouchDB with Docker!</h1>");
+    res.write("<h3>Default user data pulled from the database --></h3>");
+    res.write(`<h3>Username: ${user.username}<br>Email: ${user.email}</h3>`);
+    return res.end();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server Error');
   }
-};
-createDatabase('testdb');
-const db = nano.use('testdb');
-
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
-
-app.get('/testdb', async (req, res) => {
-    try {
-        const response = await nano.db.get('testdb');
-        res.json(response);
-      } catch (error) {
-        if (error.statusCode === 404) {
-          res.status(404).json({ message: `Database 'testdb' not found.` });
-        } else {
-          console.error(`Error fetching information for database 'testdb':`, error.message);
-          res.status(500).json({ message: 'Internal server error.' });
-        }
-      }
 });
 
 app.listen(3000, () => {
