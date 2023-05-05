@@ -1,4 +1,6 @@
-const nano = require('nano')('http://admin:password@couchdb:5984');
+const DB_USER = process.env.COUCHDB_USER;
+const DB_PASSWORD = process.env.COUCHDB_PASSWORD;
+const nano = require('nano')(`http://${DB_USER}:${DB_PASSWORD}@couchdb:5984`);
 
 const DB_NAME = 'testdb';
 let db;
