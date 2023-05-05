@@ -2,10 +2,11 @@
   "name": "app",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "initdb": "node scripts/initdb.js"
   },
   "author": "",
   "license": "ISC",
