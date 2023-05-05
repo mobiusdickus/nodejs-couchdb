@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Variables
 couchdb_host="couchdb"
@@ -38,6 +38,7 @@ while ! check_couchdb_connection; do
   echo "CouchDB is not yet available. Retrying in ${wait_time} seconds..."
   sleep ${wait_time}
 done
+
 echo "CouchDB is now available."
 
 # Initialize CouchDB 
@@ -52,6 +53,9 @@ curl -X PUT "${COUCHDB_URI}/_replicator"
 echo "Adding _global_changes..."
 curl -X PUT "${COUCHDB_URI}/_global_changes"
 
+echo "Loading default documents..."
+npm run initdb
+
 echo -e "\nStarting node web server."
 
 # Start the web server
@@ -60,7 +64,7 @@ if [ "$ENVIRONMENT" = "dev" ]; then
     npm run dev
 elif [ "$ENVIRONMENT" = "prod" ]; then
     echo "Starting prod server..."
-    node app.js
+    npm run start
 else
     echo "ERROR: incorrect or missing ENVIRONMENT env variable." 
 fi
