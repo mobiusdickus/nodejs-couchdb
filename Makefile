@@ -1,6 +1,6 @@
 CONTAINERS = $(shell docker ps -aq)
 IMAGES = $(shell docker images -f "reference=couchdb" -f "reference=node-couchdb-webserver" -q)
-VOLUMES = $(shell docker volume ls -f "name=node-couchdb_couchdb_data" -q)
+VOLUMES = $(shell docker volume ls -f "name=nodejs-couchdb_couchdb_data" -q)
 
 start:
 	docker-compose up
